@@ -190,3 +190,124 @@ IND
 
 </body>
 </html>.                           
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICC World Test Championship</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#111;
+}
+
+.wtc-banner{
+    width:100%;
+    max-width:1600px;
+    margin:auto;
+    height:340px;
+    background:linear-gradient(180deg,#000,#090909);
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+}
+
+/* Golden Curves */
+.wtc-banner::before{
+    content:"";
+    position:absolute;
+    width:150%;
+    height:220px;
+    border:6px solid #cfa55c;
+    border-radius:50%;
+    top:-170px;
+    right:-200px;
+    opacity:.8;
+}
+
+.wtc-banner::after{
+    content:"";
+    position:absolute;
+    width:170%;
+    height:200px;
+    border-top:5px solid #cfa55c;
+    border-radius:50%;
+    bottom:-120px;
+    left:-180px;
+}
+
+.content{
+    display:flex;
+    align-items:center;
+    gap:35px;
+    z-index:2;
+}
+
+.logo{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    background:radial-gradient(circle,#fff,#d9b66b,#222);
+    box-shadow:0 0 30px rgba(255,215,120,.8);
+}
+
+.text h1{
+    font-size:58px;
+    line-height:1;
+    font-weight:800;
+}
+
+.text h2{
+    margin-top:10px;
+    color:#cfa55c;
+    font-size:50px;
+    font-weight:800;
+}
+
+@media(max-width:768px){
+    .wtc-banner{
+        height:220px;
+    }
+
+    .logo{
+        width:90px;
+        height:90px;
+    }
+
+    .text h1{
+        font-size:28px;
+    }
+
+    .text h2{
+        font-size:24px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wtc-banner">
+    <div class="content">
+        <div class="logo"></div>
+
+        <div class="text">
+            <h1>ICC WORLD TEST<br>CHAMPIONSHIP</h1>
+            <h2>2025–2027</h2>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
