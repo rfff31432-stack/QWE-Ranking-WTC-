@@ -1,25 +1,43 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WTC Rankings</title>
+<title>ICC World Test Championship Rankings</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-body{
+*{
 margin:0;
-font-family:Arial,Helvetica,sans-serif;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
 background:#f5f5f5;
+padding:20px;
 }
 
 .container{
 max-width:900px;
-margin:20px auto;
+margin:auto;
 background:#fff;
-border-radius:10px;
+border-radius:12px;
 overflow:hidden;
-box-shadow:0 2px 8px rgba(0,0,0,.2);
+box-shadow:0 5px 20px rgba(0,0,0,.15);
+}
+
+.title{
+background:#ffffff;
+text-align:center;
+padding:20px;
+}
+
+.title h1{
+font-size:28px;
+color:#0b2c6d;
 }
 
 table{
@@ -32,50 +50,59 @@ background:#000;
 color:#fff;
 }
 
-th{
-padding:18px;
+thead th{
+padding:18px 10px;
 font-size:18px;
 text-align:center;
 }
 
-td{
-padding:18px;
+tbody td{
+padding:20px 10px;
 font-size:18px;
 text-align:center;
-border-bottom:1px solid #ddd;
+border-bottom:1px solid #e6e6e6;
 }
 
 .team{
 display:flex;
 align-items:center;
-gap:10px;
-font-weight:bold;
-color:#002366;
+gap:12px;
+font-weight:700;
+color:#0b2c6d;
 }
 
-.flag{
-font-size:30px;
+.team img{
+width:48px;
+height:32px;
+object-fit:cover;
+border:1px solid #ddd;
 }
 
-tr:hover{
-background:#f0f7ff;
+tbody tr:hover{
+background:#f3f7ff;
 }
 
-@media(max-width:600px){
-th,td{
+@media(max-width:768px){
+thead th,
+tbody td{
 font-size:15px;
-padding:12px;
+padding:14px 6px;
 }
-.flag{
-font-size:24px;
+.team img{
+width:38px;
+height:26px;
 }
 }
 </style>
-
 </head>
+
 <body>
 
 <div class="container">
+
+<div class="title">
+<h1>ICC World Test Championship Rankings</h1>
+</div>
 
 <table>
 
@@ -93,7 +120,10 @@ font-size:24px;
 
 <tr>
 <td>1</td>
-<td class="team"><span class="flag">🇦🇺</span>AUS</td>
+<td class="team">
+<img src="https://flagcdn.com/w80/au.png">
+AUS
+</td>
 <td>8</td>
 <td>84</td>
 <td>87.50</td>
@@ -101,7 +131,10 @@ font-size:24px;
 
 <tr>
 <td>2</td>
-<td class="team"><span class="flag">🇿🇦</span>SA</td>
+<td class="team">
+<img src="https://flagcdn.com/w80/za.png">
+SA
+</td>
 <td>4</td>
 <td>36</td>
 <td>75.00</td>
@@ -109,7 +142,10 @@ font-size:24px;
 
 <tr>
 <td>3</td>
-<td class="team"><span class="flag">🇳🇿</span>NZ</td>
+<td class="team">
+<img src="https://flagcdn.com/w80/nz.png">
+NZ
+</td>
 <td>6</td>
 <td>52</td>
 <td>72.22</td>
@@ -117,7 +153,10 @@ font-size:24px;
 
 <tr>
 <td>4</td>
-<td class="team"><span class="flag">🇧🇩</span>BAN</td>
+<td class="team">
+<img src="https://flagcdn.com/w80/bd.png">
+BAN
+</td>
 <td>4</td>
 <td>28</td>
 <td>58.33</td>
@@ -125,52 +164,11 @@ font-size:24px;
 
 <tr>
 <td>5</td>
-<td class="team"><span class="flag">🇮🇳</span>IND</td>
+<td class="team">
+<img src="https://flagcdn.com/w80/in.png">
+IND
+</td>
 <td>6</td>
 <td>36</td>
 <td>50.00</td>
 </tr>
-
-<tr>
-<td>6</td>
-<td class="team"><span class="flag">🇱🇰</span>SL</td>
-<td>4</td>
-<td>20</td>
-<td>41.67</td>
-</tr>
-
-<tr>
-<td>7</td>
-<td class="team"><span class="flag">🏴</span>ENG</td>
-<td>13</td>
-<td>38</td>
-<td>24.36</td>
-</tr>
-
-<tr>
-<td>8</td>
-<td class="team"><span class="flag">🇼🇸</span>WI</td>
-<td>11</td>
-<td>30</td>
-<td>22.73</td>
-</tr>
-
-<tr>
-<td>9</td>
-<td class="team"><span class="flag">🇵🇰</span>PAK</td>
-<td>5</td>
-<td>4</td>
-<td>6.67</td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</body>
-</html>
-Point Seyastam 12 point for a Win 6 point for a tie 4 point fra Draw Top two teams Qualify  For a Final 2027. Thumsam. sprite by sponser 
-#QWE Cricket 
-https://rfff31432-stack.github.io/QWE-Ranking-WTC-/
