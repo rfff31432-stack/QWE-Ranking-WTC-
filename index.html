@@ -1,3 +1,243 @@
-    /* 
-          <      </table>
-    <
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vande Bharat Railway Simulation Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: #222;
+        }
+        canvas {
+            background: #333;
+            display: block;
+            margin: 0 auto;
+        }
+        #ui {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            display: flex;
+            gap: 20px;
+            border: 2px solid #ff6600;
+        }
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e55c00;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div id="ui">
+            <div>Train: <span id="train-name" style="color: #ff6600; font-weight: bold;">Orange Vande Bharat</span></div>
+            <div>Distance: <span id="distance">0</span> KM</div>
+            <div>Speed: <span id="speed">120</span> km/h</div>
+            <div>Track: <span id="track-num">1</span></div>
+            <div>Signal: <span id="signal-status" style="color: #00ff00;">GREEN</span></div>
+        </div>
+
+        <canvas id="railwayCanvas" width="1000" height="600"></canvas>
+
+        <div id="controls">
+            <button onclick="accelerateTrain()">Accelerate (+)</button>
+            <button onclick="brakeTrain()">Brake (-)</button>
+            <button onclick="changeTrack()">Change Track (↕)</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("railwayCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let distanceCovered = 0;
+        let trainSpeed = 120; // km/h base
+        let currentTrack = 1; // Track 1, 2, or 3
+        let signalState = "GREEN"; // GREEN, YELLOW, RED
+        let signalTimer = 0;
+
+        // Stations placed at specific distances (in KM)
+        const stations = [
+            { name: "Delhi Junction", km: 500 },
+            { name: "Kanpur Central", km: 2000 },
+            { name: "Prayagraj Jn", km: 5000 },
+            { name: "Varanasi Terminus", km: 8000 }
+        ];
+
+        let nextStationIndex = 0;
+
+        function accelerateTrain() {
+            if (signalState !== "RED" && trainSpeed < 200) {
+                trainSpeed += 20;
+            }
+        }
+
+        function brakeTrain() {
+            if (trainSpeed > 20) {
+                trainSpeed -= 30;
+            } else {
+                trainSpeed = 0;
+            }
+        }
+
+        function changeTrack() {
+            currentTrack = currentTrack >= 3 ? 1 : currentTrack + 1;
+            document.getElementById("track-num").innerText = currentTrack;
+        }
+
+        function updateGame() {
+            // Update distance based on speed
+            if (trainSpeed > 0) {
+                distanceCovered += (trainSpeed / 3600) * 10; // Scaling for smooth gameplay
+            }
+
+            // Signal Logic simulation
+            signalTimer++;
+            if (signalTimer > 300) {
+                let rand = Math.random();
+                if (rand < 0.6) signalState = "GREEN";
+                else if (rand < 0.85) signalState = "YELLOW";
+                else signalState = "RED";
+                
+                document.getElementById("signal-status").innerText = signalState;
+                document.getElementById("signal-status").style.color = 
+                    signalState === "GREEN" ? "#00ff00" : signalState === "YELLOW" ? "#ffff00" : "#ff0000";
+                
+                signalTimer = 0;
+            }
+
+            // Handle Red Signal speed restriction
+            if (signalState === "RED" && trainSpeed > 0) {
+                trainSpeed -= 2;
+                if(trainSpeed < 0) trainSpeed = 0;
+            } else if (signalState === "YELLOW" && trainSpeed > 80) {
+                trainSpeed -= 1;
+            }
+
+            // Check upcoming stations
+            let currentDistInt = Math.floor(distanceCovered);
+            let targetStation = stations[nextStationIndex];
+            if (targetStation && currentDistInt >= targetStation.km - 50 && currentDistInt <= targetStation.km) {
+                // Approaching station notification logic can go here
+            }
+
+            document.getElementById("distance").innerText = currentDistInt;
+            document.getElementById("speed").innerText = Math.round(trainSpeed);
+        }
+
+        function drawTracks() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw 3 Parallel Tracks
+            const trackYCoords = [200, 300, 400];
+
+            trackYCoords.forEach((y, index) => {
+                ctx.strokeStyle = (index + 1 === currentTrack) ? "#555" : "#333";
+                ctx.lineWidth = 6;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+
+                // Draw wooden sleepers (ties) on tracks
+                ctx.strokeStyle = "#777";
+                ctx.lineWidth = 2;
+                let offset = (distanceCovered * 10) % 40;
+                for (let x = -offset; x < canvas.width; x += 40) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, y - 8);
+                    ctx.lineTo(x, y + 8);
+                    ctx.stroke();
+                }
+            });
+        }
+
+        function drawTrainAndEnvironment() {
+            let activeY = 200;
+            if (currentTrack === 2) activeY = 300;
+            if (currentTrack === 3) activeY = 400;
+
+            // Draw Orange Vande Bharat Engine
+            ctx.fillStyle = "#ff6600"; // Orange Vande Bharat Theme
+            ctx.fillRect(150, activeY - 22, 100, 30);
+            
+            // Train aerodynamic nose
+            ctx.fillStyle = "#e55c00";
+            ctx.beginPath();
+            ctx.moveTo(250, activeY - 22);
+            ctx.lineTo(280, activeY - 7);
+            ctx.lineTo(280, activeY + 8);
+            ctx.lineTo(250, activeY + 8);
+            ctx.fill();
+
+            // Train Windows & Details
+            ctx.fillStyle = "#000";
+            ctx.fillRect(170, activeY - 15, 60, 10);
+
+            // Draw Signal Post ahead
+            ctx.fillStyle = "#888";
+            ctx.fillRect(750, 100, 10, 150);
+
+            // Signal Light Box
+            ctx.fillStyle = "#222";
+            ctx.fillRect(740, 90, 30, 50);
+
+            // Signal bulb glowing
+            ctx.beginPath();
+            ctx.arc(755, 115, 10, 0, Math.PI * 2);
+            ctx.fillStyle = signalState === "GREEN" ? "#00ff00" : signalState === "YELLOW" ? "#ffff00" : "#ff0000";
+            ctx.fill();
+
+            // Draw Station Board info on screen if near station milestones
+            ctx.fillStyle = "white";
+            ctx.font = "16px Arial";
+            ctx.fillText("Next Station Milestone: " + (stations[nextStationIndex] ? stations[nextStationIndex].name + " (" + stations[nextStationIndex].km + " KM)" : "Destination Reached"), 50, 50);
+        }
+
+        function gameLoop() {
+            updateGame();
+            drawTracks();
+            drawTrainAndEnvironment();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game loop
+        gameLoop();
+    </script>
+</body>
+</html>
